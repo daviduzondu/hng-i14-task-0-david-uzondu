@@ -2,12 +2,23 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/index.mjs",
+      "src": "src/index.ts",
       "use": "@vercel/node",
       "config": { "includeFiles": ["dist/**"] }
     }
   ],
-  "routes": [
-    { "src": "/(.*)", "dest": "dist/index.mjs" }
+   "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "src/index.ts",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH",
+        "OPTIONS"
+      ]
+    }
   ]
 }
