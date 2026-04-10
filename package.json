@@ -1,0 +1,28 @@
+{
+  "name": "hng-i14-task-0-david-uzondu",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -r dev",
+    "build": "pnpm -r build",
+    "check-types": "pnpm -r check-types",
+    "dev:server": "pnpm --filter server dev",
+    "check": "biome check --write ."
+  },
+  "dependencies": {
+    "@hng-i14-task-0-david-uzondu/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "@hng-i14-task-0-david-uzondu/config": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@10.30.1"
+}
