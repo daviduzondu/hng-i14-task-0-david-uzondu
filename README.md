@@ -65,7 +65,6 @@ GET /api/classify?name=alex
   }
 }
 ```
-
 ---
 
 ### Error responses
@@ -75,7 +74,7 @@ GET /api/classify?name=alex
 ```json
 {
   "status": "error",
-  "message": "name is required as a query parameter"
+  "message": "'name' is required as a query parameter"
 }
 ```
 
