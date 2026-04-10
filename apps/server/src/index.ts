@@ -29,23 +29,23 @@ export class AppError extends Error {
 }
 
 app.get("/api/classify",
- (req: Request, _res: Response, next: NextFunction) => {
+ (req: Request, res: Response, next: NextFunction) => {
   if (req.query.name === undefined) {
-   return _res.status(400).json({
+   return res.status(400).json({
     status: "error",
     message: "'name' is required as a query parameter"
    });
   }
 
   if (req.query.name === "") {
-   return _res.status(400).json({
+   return res.status(400).json({
     status: "error",
     message: "'name' cannot be empty"
    });
   }
 
   if (isNaN(Number(req.query.name)) === false) {
-   return _res.status(422).json({
+   return res.status(422).json({
     status: "error",
     message: "'name' must not be a number"
    });
@@ -107,5 +107,3 @@ app.use((err: Error, _req: Request, res: Response<ErrorResponse>, _next: NextFun
 app.listen(env.PORT, () => {
  console.log(`Server is running on http://localhost:${env.PORT}`);
 });
-
-export default app;
