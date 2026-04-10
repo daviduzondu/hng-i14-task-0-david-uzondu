@@ -54,7 +54,7 @@ app.get("/api/classify",
  },
 
  async (req: Request<{}, {}, {}, { name: string }>, res: Response<SuccessResponse | ErrorResponse>) => {
-  const genderizeResponse: globalThis.Response = await fetch(`https://api.genderize.io/?name=${req.query.name}`).catch(e => {
+  const genderizeResponse = await fetch(`https://api.genderize.io/?name=${req.query.name}`).catch(e => {
    throw new AppError({
     message: e.message,
     code: 502
