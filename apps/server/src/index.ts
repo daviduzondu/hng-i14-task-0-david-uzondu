@@ -17,7 +17,7 @@ app.get("/", (_req, res) => {
  res.status(200).send("OK");
 });
 
-export class AppError extends Error {
+class AppError extends Error {
  code: number;
  constructor({ message, code }: {
   message: string,
