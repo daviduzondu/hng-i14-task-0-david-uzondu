@@ -1,7 +1,5 @@
 # hng-i14-task-0-david-uzondu
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines Express, and more.
-
 ## Features
 
 - **TypeScript** - For type safety and improved developer experience
@@ -25,9 +23,6 @@ pnpm run dev
 
 The API is running at [http://localhost:3000](http://localhost:3000).
 
-## Git Hooks and Formatting
-
-- Format and lint fix: `pnpm run check`
 
 ## Project Structure
 
@@ -40,8 +35,7 @@ hng-i14-task-0-david-uzondu/
 
 ## Available Scripts
 
-- `pnpm run dev`: Start all applications in development mode
-- `pnpm run build`: Build all applications
-- `pnpm run dev:server`: Start only the server
-- `pnpm run check-types`: Check TypeScript types across all apps
-- `pnpm run check`: Run Biome formatting and linting
+- `pnpm run dev`: Start the server in development mode
+- `pnpm run start`: Start the server in production mode
+- `pnpm run build`: Build the application
+- `pnpm run check`: Format and lint fix

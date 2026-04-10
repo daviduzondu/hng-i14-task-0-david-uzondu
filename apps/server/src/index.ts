@@ -1,9 +1,7 @@
-import { classifyNameSchema } from "@/schema";
 import type { ErrorResponse, GenderizeResponse, SuccessResponse } from "@/types";
 import { env } from "@hng-i14-task-0-david-uzondu/env/server";
 import cors from "cors";
 import express, { type NextFunction, type Request, type Response } from "express";
-import z, { ZodError } from "zod";
 
 const app = express();
 app.use(
@@ -19,26 +17,53 @@ app.get("/", (_req, res) => {
  res.status(200).send("OK");
 });
 
-class ValidationError extends Error {
+export class AppError extends Error {
  code: number;
- constructor(code: number, error: ZodError) {
-  super(error.message, {
-   cause: error.cause
-  });
+ constructor({ message, code }: {
+  message: string,
+  code: number
+ }) {
+  super(message)
   this.code = code;
  }
 }
+
 app.get("/api/classify",
  (req: Request, _res: Response, next: NextFunction) => {
-  const { success, error } = z.safeParse(classifyNameSchema, req.query);
-  if (!success) throw error;
+  if (req.query.name === undefined) {
+   return _res.status(400).json({
+    status: "error",
+    message: "'name' is required as a query parameter"
+   });
+  }
+
+  if (req.query.name === "") {
+   return _res.status(400).json({
+    status: "error",
+    message: "'name' cannot be empty"
+   });
+  }
+
+  if (isNaN(Number(req.query.name)) === false) {
+   return _res.status(422).json({
+    status: "error",
+    message: "'name' must not be a number"
+   });
+  }
   next()
  },
+
  async (req: Request<{}, {}, {}, { name: string }>, res: Response<SuccessResponse | ErrorResponse>) => {
   const genderizeResponse = await fetch(`https://api.genderize.io/?name=${req.query.name}`).catch(e => {
-   throw new Error("Failed to call Genderize API")
+   throw new AppError({
+    message: e.message,
+    code: 502
+   })
   });
-  if (!genderizeResponse.ok) throw new Error("Genderize API error");
+  if (!genderizeResponse.ok) throw new AppError({
+   message: 'Genderize API error',
+   code: 502
+  });
   const data: GenderizeResponse = (await genderizeResponse.json()) as GenderizeResponse;
   if (data.count === 0 || data.gender === null) return res.status(404).json({
    status: 'error',
@@ -59,19 +84,20 @@ app.get("/api/classify",
  });
 
 
-app.use((err: Error, _req: Request, _res: Response<ErrorResponse>, _next: NextFunction) => {
- if (err instanceof ZodError) {
-  _res.status(400).json({
-   "status": "error",
-   message: err.message,
+app.use((err: Error, _req: Request, res: Response<ErrorResponse>, _next: NextFunction) => {
+ if (err instanceof AppError) {
+  return res.status(err.code).json({
+   status: 'error',
+   message: err.message
   })
- } else if (err instanceof SyntaxError && 'body' in err) {
-  return _res.status(400).json({
+ }
+ if (err instanceof SyntaxError && 'body' in err) {
+  return res.status(400).json({
    status: "error",
    message: err.message
   });
  } else {
-  return _res.status(500).json({
+  return res.status(500).json({
    status: "error",
    message: "Internal server error"
   })

@@ -7,12 +7,11 @@
  ],
  "type": "module",
  "scripts": {
-  "dev": "pnpm -r dev",
-  "build": "pnpm -r build",
-  "check-types": "pnpm -r check-types",
-  "dev:server": "pnpm --filter server dev",
   "check": "biome check --write .",
-  "start": "pnpm -r start"
+  "build": "pnpm --filter server build",
+  "check-types": "pnpm -r check-types",
+  "dev": "pnpm --filter server dev",
+  "start": "pnpm --filter server start"
  },
  "dependencies": {
   "@hng-i14-task-0-david-uzondu/env": "workspace:*",
