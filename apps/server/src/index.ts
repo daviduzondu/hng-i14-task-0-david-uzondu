@@ -1,9 +1,9 @@
 import type { ErrorResponse, GenderizeResponse, SuccessResponse } from "@/types";
 import { env } from "@hng-i14-task-0-david-uzondu/env/server";
 import cors from "cors";
-import express, { type NextFunction, type Request, type Response } from "express";
+import express, { type Express, type NextFunction, type Request, type Response } from "express";
 
-const app = express();
+const app: Express = express();
 app.use(
  cors({
   origin: env.CORS_ORIGIN,
@@ -107,3 +107,5 @@ app.use((err: Error, _req: Request, res: Response<ErrorResponse>, _next: NextFun
 app.listen(env.PORT, () => {
  console.log(`Server is running on http://localhost:${env.PORT}`);
 });
+
+export default app;
